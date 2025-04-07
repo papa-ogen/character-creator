@@ -236,12 +236,26 @@ const FighterEditor = () => {
       <div className="flex flex-col">
         <label>
           Hair Color:
-          <input
-            type="color"
+          <select
             value={hairColor}
             onChange={(e) => setHairColor(e.target.value)}
             className="ml-2"
-          />
+          >
+            <option value="#000000">Black</option>
+            <option value="#4B3621">Dark Brown</option>
+            <option value="#603813">Medium Brown</option>
+            <option value="#A0522D">Chestnut</option>
+            <option value="#D2B48C">Blonde</option>
+            <option value="#FFF5E1">Platinum Blonde</option>
+            <option value="#A52A2A">Auburn</option>
+            <option value="#FF4500">Red</option>
+            <option value="#FFFFFF">White</option>
+            <option value="#808080">Gray</option>
+            <option value="#FF69B4">Pink</option>
+            <option value="#00BFFF">Blue</option>
+            <option value="#800080">Purple</option>
+            <option value="#00FF00">Green</option>
+          </select>
         </label>
         <label>
           Skin Color:
@@ -292,7 +306,9 @@ const FighterEditor = () => {
           </select>
         </label>
       </div>
-      <canvas ref={canvasRef} width={88} height={200} className="border" />
+      <div className="ml-36">
+        <canvas ref={canvasRef} width={88} height={200} className="border" />
+      </div>
 
       <canvas ref={canvasHeadRef} width={40} height={48} />
     </div>
