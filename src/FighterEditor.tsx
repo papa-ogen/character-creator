@@ -20,31 +20,45 @@ const drawPixel = (
   ctx.fillRect(x * scale, y * scale, scale, scale);
 };
 
-// COMPONENT FUNCTIONS
-const drawHair = (ctx: CanvasRenderingContext2D, color: string) => {
-  drawPixel(ctx, 12, 1, color);
-  drawPixel(ctx, 13, 1, color);
-  drawPixel(ctx, 14, 1, color);
-  drawPixel(ctx, 15, 1, color);
-  drawPixel(ctx, 16, 1, color);
-  drawPixel(ctx, 12, 2, color);
-  drawPixel(ctx, 13, 2, color);
-  drawPixel(ctx, 14, 2, color);
-  drawPixel(ctx, 15, 2, color);
-  drawPixel(ctx, 16, 2, color);
+const drawHair = (
+  ctx: CanvasRenderingContext2D,
+  baseX: number,
+  baseY: number,
+  color: string
+) => {
+  drawPixel(ctx, baseX, baseY, color);
+  drawPixel(ctx, baseX + 1, baseY, color);
+  drawPixel(ctx, baseX + 2, baseY, color);
+  drawPixel(ctx, baseX + 3, baseY, color);
+  drawPixel(ctx, baseX + 4, baseY, color);
+  drawPixel(ctx, baseX, baseY + 1, color);
+  drawPixel(ctx, baseX + 1, baseY + 1, color);
+  drawPixel(ctx, baseX + 2, baseY + 1, color);
+  drawPixel(ctx, baseX + 3, baseY + 1, color);
+  drawPixel(ctx, baseX + 4, baseY + 1, color);
 };
 
-const drawFace = (ctx: CanvasRenderingContext2D, color: string) => {
-  for (let y = 3; y <= 6; y++) {
-    for (let x = 12; x <= 16; x++) {
-      drawPixel(ctx, x, y, color);
+const drawFace = (
+  ctx: CanvasRenderingContext2D,
+  baseX: number,
+  baseY: number,
+  color: string
+) => {
+  for (let y = 0; y <= 3; y++) {
+    for (let x = 0; x <= 4; x++) {
+      drawPixel(ctx, baseX + x, baseY + y, color);
     }
   }
 };
 
-const drawEyes = (ctx: CanvasRenderingContext2D, color: string) => {
-  drawPixel(ctx, 13, 4, color);
-  drawPixel(ctx, 15, 4, color);
+const drawEyes = (
+  ctx: CanvasRenderingContext2D,
+  baseX: number,
+  baseY: number,
+  color: string
+) => {
+  drawPixel(ctx, baseX + 1, baseY, color);
+  drawPixel(ctx, baseX + 3, baseY, color);
 };
 
 const drawBody = ({
@@ -56,57 +70,80 @@ const drawBody = ({
   ctx: CanvasRenderingContext2D;
   color: string;
 }) => {
-  for (let y = position.y - 8; y <= 12; y++) {
-    for (let x = position.x - 4; x <= 16; x++) {
-      drawPixel(ctx, x, y, color);
+  for (let y = 0; y <= 5; y++) {
+    for (let x = 0; x <= 4; x++) {
+      drawPixel(ctx, position.x + x, position.y + y, color);
     }
   }
 };
 
-const drawArms = (ctx: CanvasRenderingContext2D, color: string) => {
-  for (let y = 8; y <= 11; y++) {
-    drawPixel(ctx, 10, y, color); // Left arm
-    drawPixel(ctx, 18, y, color); // Right arm
+const drawArms = (
+  ctx: CanvasRenderingContext2D,
+  baseX: number,
+  baseY: number,
+  color: string
+) => {
+  for (let y = 0; y <= 4; y++) {
+    drawPixel(ctx, baseX, baseY + y, color); // Left arm
+    drawPixel(ctx, baseX + 8, baseY + y, color); // Right arm
   }
 };
 
-const drawGloves = (ctx: CanvasRenderingContext2D, color: string) => {
-  drawPixel(ctx, 10, 12, color);
-  drawPixel(ctx, 18, 12, color);
+const drawGloves = (
+  ctx: CanvasRenderingContext2D,
+  baseX: number,
+  baseY: number,
+  color: string
+) => {
+  drawPixel(ctx, baseX, baseY, color);
+  drawPixel(ctx, baseX + 8, baseY, color);
 };
 
-const drawShorts = (ctx: CanvasRenderingContext2D, color: string) => {
-  for (let y = 13; y <= 15; y++) {
-    for (let x = 12; x <= 16; x++) {
-      drawPixel(ctx, x, y, color);
+const drawShorts = (
+  ctx: CanvasRenderingContext2D,
+  baseX: number,
+  baseY: number,
+  color: string
+) => {
+  for (let y = 0; y <= 2; y++) {
+    for (let x = 0; x <= 4; x++) {
+      if (y == 2 && x == 2) continue; // Skip the middle pixel for shorts
+      drawPixel(ctx, baseX + x, baseY + y, color);
     }
   }
 };
 
-const drawLegs = (ctx: CanvasRenderingContext2D, color: string) => {
+const drawLegs = (
+  ctx: CanvasRenderingContext2D,
+  baseX: number,
+  baseY: number,
+  color: string
+) => {
   // Left leg
-  drawPixel(ctx, 12, 16, color);
-  drawPixel(ctx, 13, 16, color);
-  drawPixel(ctx, 12, 17, color);
-  drawPixel(ctx, 13, 17, color);
+  drawPixel(ctx, baseX, baseY, color);
+  drawPixel(ctx, baseX + 1, baseY, color);
+  drawPixel(ctx, baseX, baseY + 1, color);
+  drawPixel(ctx, baseX + 1, baseY + 1, color);
 
   // Right leg
-  drawPixel(ctx, 15, 16, color);
-  drawPixel(ctx, 16, 16, color);
-  drawPixel(ctx, 15, 17, color);
-  drawPixel(ctx, 16, 17, color);
+  drawPixel(ctx, baseX + 3, baseY, color);
+  drawPixel(ctx, baseX + 4, baseY, color);
+  drawPixel(ctx, baseX + 3, baseY + 1, color);
+  drawPixel(ctx, baseX + 4, baseY + 1, color);
 };
 
-function drawHead(
+const drawHead = (
   ctx: CanvasRenderingContext2D,
+  baseX: number,
+  baseY: number,
   hairColor: string,
   skinColor: string,
   eyeColor: string
-) {
-  drawHair(ctx, hairColor);
-  drawFace(ctx, skinColor);
-  drawEyes(ctx, eyeColor);
-}
+) => {
+  drawHair(ctx, baseX, baseY, hairColor);
+  drawFace(ctx, baseX, baseY + 2, skinColor);
+  drawEyes(ctx, baseX, baseY + 3, eyeColor);
+};
 
 const drawFighter = (
   canvas: HTMLCanvasElement,
@@ -117,19 +154,40 @@ const drawFighter = (
   glovesColor: string,
   eyeColor: string
 ) => {
-  const centerPointX = canvas.width / 2 / scale;
-  const centerPointY = canvas.height / 2 / scale;
+  const fighterWidth = 5;
+  const fighterHeight = 10;
 
-  drawHead(ctx, hairColor, skinColor, eyeColor);
+  const centerX = Math.floor(canvas.width / scale / 2 - fighterWidth / 2);
+  const centerY = Math.floor(canvas.height / scale / 2 - fighterHeight / 2);
+
+  // You can do the same for all body parts now
+  drawHead(ctx, centerX, centerY - 4, hairColor, skinColor, eyeColor);
   drawBody({
-    position: { x: centerPointX, y: centerPointY },
+    position: { x: centerX, y: centerY + 3 }, // Slightly adjust for where the body starts
     ctx,
     color: skinColor,
   });
-  drawArms(ctx, skinColor);
-  drawGloves(ctx, glovesColor);
-  drawShorts(ctx, shortsColor);
-  drawLegs(ctx, skinColor);
+  drawArms(ctx, centerX - 2, centerY + 3, skinColor);
+  drawGloves(ctx, centerX - 2, centerY + 8, glovesColor);
+  drawShorts(ctx, centerX, centerY + 9, shortsColor);
+  drawLegs(ctx, centerX, centerY + 12, skinColor);
+};
+
+const drawFighterPortrait = (
+  canvas: HTMLCanvasElement,
+  ctx: CanvasRenderingContext2D,
+  hairColor: string,
+  skinColor: string,
+  eyeColor: string
+) => {
+  const fighterWidth = 4;
+  const fighterHeight = 6;
+
+  const centerX = Math.floor(canvas.width / scale / 2 - fighterWidth / 2);
+  const centerY = Math.floor(canvas.height / scale / 2 - fighterHeight / 2);
+
+  // Draw head
+  drawHead(ctx, centerX, centerY, hairColor, skinColor, eyeColor);
 };
 
 // MAIN COMPONENT
@@ -153,7 +211,7 @@ const FighterEditor = () => {
     const { canvas, ctx } = ref;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawHead(ctx, hairColor, skinColor, eyeColor);
+    drawFighterPortrait(canvas, ctx, hairColor, skinColor, eyeColor);
   }, [hairColor, skinColor, shortsColor, glovesColor, eyeColor]);
 
   useEffect(() => {
@@ -234,8 +292,9 @@ const FighterEditor = () => {
           </select>
         </label>
       </div>
-      <canvas ref={canvasRef} width={256} height={256} className="border" />
-      <canvas ref={canvasHeadRef} width={40} height={48} className="border" />
+      <canvas ref={canvasRef} width={88} height={200} className="border" />
+
+      <canvas ref={canvasHeadRef} width={40} height={48} />
     </div>
   );
 };
